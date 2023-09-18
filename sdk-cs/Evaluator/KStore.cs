@@ -8,6 +8,8 @@ namespace Koople.Sdk.Evaluator
     {
         public abstract IEnumerable<KFeatureFlag> GetFeatureFlags();
 
+        public abstract Dictionary<string, KRemoteConfig>.ValueCollection GetRemoteConfigs();
+
         public abstract KSegment FindSegmentByKey(string key);
 
         public abstract KFeatureFlag GetFeatureFlag(string feature);
@@ -30,6 +32,7 @@ namespace Koople.Sdk.Evaluator
         }
 
         public override IEnumerable<KFeatureFlag> GetFeatureFlags() => _featureFlags.Values;
+        public override Dictionary<string, KRemoteConfig>.ValueCollection GetRemoteConfigs() => _remoteConfigs.Values;
 
         public override KSegment FindSegmentByKey(string key) => _segments[key];
         public override KFeatureFlag GetFeatureFlag(string feature) => _featureFlags.GetValueOrDefault(feature);

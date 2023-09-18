@@ -28,7 +28,7 @@ namespace Koople.Sdk
         }
 
         public KEvaluationResult EvaluatedFeaturesForUser(KUser user) => _evaluator.Evaluate(user);
-
+        public KFeaturesAndConfigs GetAllResults(KUser user) => _evaluator.GetAllResultsForUser(user); 
         public bool IsEnabled(string feature, KUser user) => _evaluator.Evaluate(feature, user);
         public bool IsEnabled(string feature) => _evaluator.Evaluate(feature, KUser.Anonymous());
 

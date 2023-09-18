@@ -6,6 +6,7 @@ namespace Koople.Sdk.Evaluator
     public class KEvaluationResult
     {
         public readonly Dictionary<string, bool> Features;
+        
 
         public KEvaluationResult(Dictionary<string, bool> features)
         {
@@ -33,6 +34,14 @@ namespace Koople.Sdk.Evaluator
             var evaluatedFlags = _store.GetFeatureFlags().ToDictionary(x => x.Key, flag => flag.Evaluate(_store, user));
             return new KEvaluationResult(evaluatedFlags);
         }
+        
+        public KFeaturesAndConfigs GetAllResultsForUser(KUser user)
+        {
+            var evaluatedFlags = _store.GetFeatureFlags().ToDictionary(x => x.Key, flag => flag.Evaluate(_store, user));
+            var remoteConfigs = _store.GetRemoteConfigs()
+                .ToDictionary(x => x.Key, config => config.Evaluate(_store, user));
+            return new KFeaturesAndConfigs(evaluatedFlags, remoteConfigs);
+        }
 
         public bool Evaluate(string feature, KUser user) =>
             _store.GetFeatureFlag(feature)?.Evaluate(_store, user) ?? false;
@@ -42,5 +51,7 @@ namespace Koople.Sdk.Evaluator
             var rc = _store.GetRemoteConfig(remoteConfig);
             return rc?.Evaluate(_store, user) ?? defaultValue;
         }
+
+        
     }
 }
